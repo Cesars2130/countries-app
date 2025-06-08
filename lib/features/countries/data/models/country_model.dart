@@ -21,15 +21,17 @@ class CountryModel extends CountryEntity {
 
   factory CountryModel.fromJson(Map<String, dynamic> json) {
     return CountryModel(
-      name: json['name']['common'],
-      officialName: json['name']['official'],
-      languages: json['languages'] != null
-          ? List<String>.from(json['languages'].values)
+      name: json['name']['common'] ?? '',
+      officialName: json['name']['official'] ?? '',
+      languages: json['languages'] != null 
+          ? (json['languages'] as Map<String, dynamic>).values.toList().cast<String>()
           : [],
-      region: json['region'],
-      flag: json['flags']['png'],
-      capital: json['capital']?.first ?? '',
-      population: json['population'],
+      region: json['region'] ?? '',
+      flag: json['flags']['png'] ?? '',
+      capital: json['capital'] != null && (json['capital'] as List).isNotEmpty 
+          ? json['capital'][0] 
+          : '',
+      population: json['population'] ?? 0,
     );
   }
 
